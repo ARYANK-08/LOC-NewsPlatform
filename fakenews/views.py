@@ -11,8 +11,8 @@ from serpapi import GoogleSearch
 port_stem = PorterStemmer()
 vectorization = TfidfVectorizer()
 
-vector_form = pickle.load(open('fakenews/models/vector.pkl', 'rb'))
-load_model = pickle.load(open('fakenews/models/model.pkl', 'rb'))
+# vector_form = pickle.load(open('fakenews/models/vector.pkl', 'rb'))
+# load_model = pickle.load(open('fakenews/models/model.pkl', 'rb'))
 
 
 def get_data(query):

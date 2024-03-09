@@ -3,7 +3,7 @@ from visualise.views import visualise
 from pyvis.network import Network
 from django.template import loader
 import webbrowser
-
+from django.shortcuts import render
 # Create your views here.
 def index(request):
     return render(request, 'test.html')
@@ -63,10 +63,62 @@ def serp_api(request):
     context = {'news_data': results, 'base_id': base_id }
     return render(request, 'news/dashboard.html', context)
 
+import google.generativeai as genai
+
+import google.generativeai as genai
+
 
 def summary_news(request):
-    position = request.GET.get('link')
-    html_file_path = visualise(request,position)
+    
+    url = request.GET.get('url')
+    html_file_path = visualise(request,url)
+
+    # Check if 'url' parameter is missing or empty
+    if not url:
+        url = 'https://timesofindia.indiatimes.com/india/bjp-is-irrelevant-in-thiruvananthapuram-main-fight-is-between-left-and-congress-ldf-candidate-pannyan-raveendran/articleshow/108355512.cms'
+
+    genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
+
+    # Set up the model
+    generation_config = {
+    "temperature": 0.9,
+    "top_p": 1,
+    "top_k": 1,
+    "max_output_tokens": 2048,
+    }
+
+    safety_settings = [
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    ]
+
+    model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                generation_config=generation_config,
+                                safety_settings=safety_settings)
+
+    convo = model.start_chat(history=[
+    ])
+
+    convo.send_message(f"summarise this url news and give important links{url}")
+    result = convo.last.text
+    context = { 
+        'result' : result,
+        'html_file_path': html_file_path
+    }
+    print(context)
     template = loader.get_template('news/summary.html')
-    context = {'html_file_path': html_file_path}
     return HttpResponse(template.render(context, request))
