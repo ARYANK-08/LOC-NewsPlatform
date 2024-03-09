@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/vis-network/standalone/umd/vis-network.min.css">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <h1>Graph Visualization</h1>
+    {% include 'visualise/graph.html'|safe %}
+    <!-- Embed the dynamic graph -->
+</body>
+{% endblock content %}
