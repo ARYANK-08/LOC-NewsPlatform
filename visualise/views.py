@@ -56,7 +56,7 @@ def visualise(request, link):
  # Create PyVis network object
     pyvis_network = Network(notebook=True,
                             height='400px',
-                            width='50%',
+                            width='100%',
                             bgcolor='#222222',
                             font_color='white')
 
@@ -89,7 +89,7 @@ def visualise(request, link):
 
 def get_ai_response(inputLink):
     try:
-        genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")  # Set up your API key
+        genai.configure(api_key="AIzaSyCWxLcSHWh_ccrE15Gyo0t_8WhPfAXXelM")  # Set up your API key
         generation_config = {  # Your generation config
             "temperature": 0.1,
             "top_p": 1,

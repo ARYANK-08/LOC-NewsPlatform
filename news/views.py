@@ -77,44 +77,84 @@ def summary_news(request):
     if not url:
         url = 'https://timesofindia.indiatimes.com/india/bjp-is-irrelevant-in-thiruvananthapuram-main-fight-is-between-left-and-congress-ldf-candidate-pannyan-raveendran/articleshow/108355512.cms'
 
-    genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
+    try:
+        genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
 
-    # Set up the model
-    generation_config = {
-    "temperature": 0.9,
-    "top_p": 1,
-    "top_k": 1,
-    "max_output_tokens": 2048,
-    }
+        # Set up the model
+        generation_config = {
+        "temperature": 0.9,
+        "top_p": 1,
+        "top_k": 1,
+        "max_output_tokens": 2048,
+        }
 
-    safety_settings = [
-    {
-        "category": "HARM_CATEGORY_HARASSMENT",
-        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-    },
-    {
-        "category": "HARM_CATEGORY_HATE_SPEECH",
-        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-    },
-    {
-        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-    },
-    {
-        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-    },
-    ]
+        safety_settings = [
+        {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        ]
 
-    model = genai.GenerativeModel(model_name="gemini-1.0-pro",
-                                generation_config=generation_config,
-                                safety_settings=safety_settings)
+        model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                    generation_config=generation_config,
+                                    safety_settings=safety_settings)
 
-    convo = model.start_chat(history=[
-    ])
+        convo = model.start_chat(history=[
+        ])
 
-    convo.send_message(f"summarise this url news and give important links{url}")
-    result = convo.last.text
+        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also search for the same context on google and check whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
+        result = convo.last.text
+    except:
+        genai.configure(api_key="AIzaSyCeIzo3yb2MYwp536XX_BODXUZBwjkP14Y")
+
+        # Set up the model
+        generation_config = {
+        "temperature": 0.9,
+        "top_p": 1,
+        "top_k": 1,
+        "max_output_tokens": 2048,
+        }
+
+        safety_settings = [
+        {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        ]
+
+        model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                    generation_config=generation_config,
+                                    safety_settings=safety_settings)
+
+        convo = model.start_chat(history=[
+        ])
+
+        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also search for the same context on google and check whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
+        result = convo.last.text
     context = { 
         'result' : result,
         'html_file_path': html_file_path
