@@ -1,5 +1,9 @@
+from django.shortcuts import render,HttpResponse
+from visualise.views import visualise
+from pyvis.network import Network
+from django.template import loader
+import webbrowser
 from django.shortcuts import render
-from django.http import HttpResponse
 # Create your views here.
 def index(request):
     return render(request, 'test.html')
@@ -65,7 +69,9 @@ import google.generativeai as genai
 
 
 def summary_news(request):
+    
     url = request.GET.get('url')
+    html_file_path = visualise(request,url)
 
     # Check if 'url' parameter is missing or empty
     if not url:
@@ -111,6 +117,8 @@ def summary_news(request):
     result = convo.last.text
     context = { 
         'result' : result,
+        'html_file_path': html_file_path
     }
     print(context)
-    return render(request, 'news/summary.html',context)
+    template = loader.get_template('news/summary.html')
+    return HttpResponse(template.render(context, request))

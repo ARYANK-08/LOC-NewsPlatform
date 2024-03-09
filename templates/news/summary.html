@@ -4,6 +4,14 @@
 
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://unpkg.com/vis-network/standalone/umd/vis-network.min.css">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <h1>Graph Visualization</h1>
+    {% include 'visualise/graph.html'|safe %}
+    <!-- Embed the dynamic graph -->
+</body>
 
 <div class="col-md-12 col-lg-6 mb-3"> <!-- Increase width to col-lg-6 and remove height -->
     <div class="card">

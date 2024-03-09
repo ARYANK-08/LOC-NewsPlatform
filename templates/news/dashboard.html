@@ -19,10 +19,13 @@
                              but for truly random images, you could inject a random number via your view or JavaScript -->
                              <img class="card-img-top" src="https://picsum.photos/id/{{ forloop.counter|add:base_id }}/600/300" alt="Card image cap" onerror="this.onerror=null;this.src='https://picsum.photos/600/300';">
                              <div class="card-body">
-                            <h5 class="card-title">{{ article.title }}</h5>
+                            <h5 class="card-title">{{ article.title}}</h5>
                             <p class="card-text">
                                 {{ article.snippet }}
                             </p>
+
+<!--                             <a href="/summary?link={{ article.link }}" class="btn btn-outline-primary">Summary</a> -->
+
                             <a href="{% url 'summary_news' %}?url={{ article.link|urlencode }}">Read More</a>
 
 
