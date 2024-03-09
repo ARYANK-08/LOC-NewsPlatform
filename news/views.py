@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
+from visualise.views import visualise
+from pyvis.network import Network
+from django.template import loader
+import webbrowser
 
 # Create your views here.
 def index(request):
@@ -45,7 +49,7 @@ def serp_api(request):
 
     if category:
         params = {
-            'api_key': '2145d6d7b13649473c8fc27db3144a1fcd104d599cb85342faefc7e612e243ca',
+            'api_key': '26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6',
             'engine': 'google',
             'tbm': 'nws',
             'q': category,
@@ -61,4 +65,8 @@ def serp_api(request):
 
 
 def summary_news(request):
-    return render (request,'news/summary.html')
+    position = request.GET.get('link')
+    html_file_path = visualise(request,position)
+    template = loader.get_template('news/summary.html')
+    context = {'html_file_path': html_file_path}
+    return HttpResponse(template.render(context, request))
