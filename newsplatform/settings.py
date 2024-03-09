@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'news',
     'fakenews',
     'events',
+    'visualise',
+
 ]
 
 MIDDLEWARE = [

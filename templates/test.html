@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -39,6 +37,13 @@
           <div class="col-md-4 col-lg-3 mb-3">
             <div class="card h-100" style="border-radius: 8px;"> <!-- Added border-radius here -->
                 <a href="{% url 'serp_api' %}?category=Finance" class="card-link">
+
+
+{% block content %}
+<div class="container container-fluid ">
+    <p> Hi Hello</p>
+
+{% endblock content %}
 
               <!-- Image Overlay Container -->
               <div class="image-overlay-container">
@@ -134,4 +139,8 @@
 </div>>
 
 {% endblock %}
+<<<<<<< HEAD
 >>>>>>> fc28aa7f61722380905d9ded04dd894ef9132c69
+=======
+
+>>>>>>> d359011575faf999f40db9e22442aae710943c82
