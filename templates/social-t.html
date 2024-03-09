@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> Community Chat  <i class="bx bx-trophy bx-md"></i>
+</h1>
+
+<ul>
+    {% for question in questions %}
+    <li>{{ question.title }} - 
+        <span class="vote"></span>
+        <span id="likes-count-{{ question.id }}">{{ question.likes }}</span> 
+    </li>
+    {% if question.image %}
+    <div style="max-width: 300px; margin-bottom: 20px;">
+        <a href="{{ question.image.url }}" target="_blank">
+            <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 100%;">
+        </a>
+    </div>
+    {% endif %}
+    <ul>
+        {% for answer in question.answer_set.all %}
+        <li>{{ answer.content }} - 
+            <span class="vote"></span>
+            <span id="likes-count-{{ answer.id }}">{{ answer.likes }}</span> 
+        </li>
+        <ul>
+            {% for comment in answer.comment_set.all %}
+            <li>{{ comment.content }} - 
+                <span class="vote"></span>
+                <span id="likes-count-{{ comment.id }}">{{ comment.likes }}</span> 
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'comment_answer' answer.id %}">Reply</a>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'answer_question' question.id %}?content={{ question.content }}">Comment</a>
+    {% endfor %}
+</ul>
+<a href="{% url 'ask_question' %}">Ask a Question</a>
+
+<style>
+    .vote {
+        display: inline-block;
+        overflow: hidden;
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+        background: url('https://i.stack.imgur.com/iqN2k.png');
+        background-position: 0 -25px;
+    }
+
+    .vote.on {
+        background-position: 0 2px;
+    }
+</style>
+
+<script>
+    for (const btn of document.querySelectorAll('.vote')) {
+        btn.addEventListener('click', event => {
+            event.currentTarget.classList.toggle('on');
+        });
+    }
+</script>
+{% endblock %}

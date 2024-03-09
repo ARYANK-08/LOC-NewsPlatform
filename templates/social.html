@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-wrapper">
+<div class="card">
+<div class="container-xxl flex-grow-1 container-p-y">
+
+<div class="container-md">
+    <h1 class="text-center mb-5">Community Chat <i class="bx bx-trophy bx-md"></i></h1>
+    <ul class="list-group">
+        {% for question in questions %}
+        <li class="list-group-item mb-5"> <!-- Add a margin-bottom of 5 (adjust as needed) -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ question.title }}</h5>
+                <div class="d-flex align-items-center">
+                    <span class="vote mr-2"></span>
+                    <span class="likes-count mr-3" id="likes-count-{{ question.id }}">{{ question.likes }}</span>
+                </div>
+            </div>
+            {% if question.image %}
+            <div class="mt-3">
+                <a href="{{ question.image.url }}" target="_blank">
+                    <img src="{{ question.image.url }}" alt="Question Image" class="question-image">
+                </a>
+            </div>
+            {% endif %}
+            <ul class="list-group mt-3">
+                {% for answer in question.answer_set.all %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ answer.content }}</span>
+                        <div class="d-flex align-items-center">
+                            <span class="vote mr-2"></span>
+                            <span class="likes-count mr-3" id="likes-count-{{ answer.id }}">{{ answer.likes }}</span>
+                        </div>
+                    </div>
+                    <ul class="list-group mt-3">
+                        {% for comment in answer.comment_set.all %}
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>{{ comment.content }}</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="vote mr-2"></span>
+                                    <span class="likes-count mr-3" id="likes-count-{{ comment.id }}">{{ comment.likes }}</span>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'comment_answer' answer.id %}" class="btn btn-sm btn-outline-primary mt-2">Reply</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'answer_question' question.id %}?content={{ question.content }}" class="btn btn-primary mt-3">Comment</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'ask_question' %}" class="btn btn-success btn-lg btn-block mt-5">Ask a Question</a>
+</div>
+
+<style>
+    .container-md {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .question-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .vote {
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+        background: url('https://i.stack.imgur.com/iqN2k.png');
+        background-position: 0 -25px;
+    }
+
+    .likes-count {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .vote.on {
+        background-position: 0 2px;
+    }
+</style>
+
+<script>
+    for (const btn of document.querySelectorAll('.vote')) {
+        btn.addEventListener('click', event => {
+            event.currentTarget.classList.toggle('on');
+        });
+    }
+</script>
+{% endblock %}
