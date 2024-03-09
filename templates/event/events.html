@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container container-fluid p-4">
+    <h1> Events Page</h1>
+
+    <form method="post" >
+        {%csrf_token%}
+        <div class="row align-items-center">
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <span class="input-group-text" id="location-addon"><i class="bi bi-geo-alt"></i></span>
+                    <input type="text" name="location" class="form-control" placeholder="Enter your location" aria-label="Location" aria-describedby="location-addon">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
+        </div>
+    </form>
+   
+
+    <!-- Grid Card -->
+    <div class="row pt-4 row-cols-1 row-cols-md-3 g-4 mb-5">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100">
+                <img class="card-img-top " src="{{ event.image }}" alt="{{ event.title }}" />
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p><strong>Date:</strong> {{ event.date.when }}</p>
+                    <p class="card-text">
+                        {{ event.description }}
+                    </p>
+                    <p><a href="{{ event.link }}">More Info</a></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock content %}

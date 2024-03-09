@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="col-md-12 col-lg-6 mb-3"> <!-- Increase width to col-lg-6 and remove height -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+        </div>
+        <img class="card-img-top" src="{% static 'assets/img/elements/13.jpg' %}" alt="Card image cap" style="width: 100%; max-height: 200px;"> <!-- Set image width to 100% and limit height -->
+        <div class="card-body">
+            <p class="card-text">Bear claw sesame snaps gummies chocolate.</p>
+            <a href="javascript:void(0);" class="card-link">Card link</a>
+            <a href="javascript:void(0);" class="card-link">Another link</a>
+        </div>
+    </div>
+</div>
+  {% endblock %}
