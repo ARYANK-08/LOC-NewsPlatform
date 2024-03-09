@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container container-fluid ">
+    <h1>Fake News Classification App</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="news_content">Enter your news content here:</label><br>
+        <textarea id="news_content" name="news_content" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if result %}
+    <h2>Prediction Result:</h2>
+    <p>{{ result }}</p>
+    {% endif %}
+
+
+</div>
+{% endblock content %}

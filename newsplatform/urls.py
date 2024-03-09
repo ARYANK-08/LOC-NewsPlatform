@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
+    path('checknews/', include('fakenews.urls')),
+    path('events/', include('events.urls')),
     path('', include('visualise.urls')),
-
 ]
 # Serve static files during development
 if settings.DEBUG:
