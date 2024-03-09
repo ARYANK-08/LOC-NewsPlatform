@@ -23,7 +23,8 @@
                             <p class="card-text">
                                 {{ article.snippet }}
                             </p>
-                            <a href="/summary" class="btn btn-outline-primary">Summary</a>
+                            <a href="{% url 'summary_news' %}?url={{ article.link|urlencode }}">Read More</a>
+
 
                         </div>
                     </div>

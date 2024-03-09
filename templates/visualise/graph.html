@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "Crisis at Byju\u0027s", "label": "Crisis at Byju\u0027s", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Battle between investors and Byju Raveendran", "label": "Battle between investors and Byju Raveendran", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Troubled company", "label": "Troubled company", "shape": "dot", "size": 10}]);
-                  edges = new vis.DataSet([{"from": "Crisis at Byju\u0027s", "to": "Battle between investors and Byju Raveendran", "width": 1}, {"from": "Battle between investors and Byju Raveendran", "to": "Troubled company", "width": 1}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "Byju\u0027s crisis", "label": "Byju\u0027s crisis", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Battle between investors and Byju Raveendran", "label": "Battle between investors and Byju Raveendran", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Troubled company", "label": "Troubled company", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"from": "Byju\u0027s crisis", "to": "Battle between investors and Byju Raveendran", "width": 1}, {"from": "Battle between investors and Byju Raveendran", "to": "Troubled company", "width": 1}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });

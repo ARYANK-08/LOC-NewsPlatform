@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import HttpResponse
 # Create your views here.
 def index(request):
     return render(request, 'test.html')
@@ -45,7 +45,7 @@ def serp_api(request):
 
     if category:
         params = {
-            'api_key': '2145d6d7b13649473c8fc27db3144a1fcd104d599cb85342faefc7e612e243ca',
+            'api_key': '26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6',
             'engine': 'google',
             'tbm': 'nws',
             'q': category,
@@ -59,6 +59,58 @@ def serp_api(request):
     context = {'news_data': results, 'base_id': base_id }
     return render(request, 'news/dashboard.html', context)
 
+import google.generativeai as genai
+
+import google.generativeai as genai
+
 
 def summary_news(request):
-    return render (request,'news/summary.html')
+    url = request.GET.get('url')
+
+    # Check if 'url' parameter is missing or empty
+    if not url:
+        url = 'https://timesofindia.indiatimes.com/india/bjp-is-irrelevant-in-thiruvananthapuram-main-fight-is-between-left-and-congress-ldf-candidate-pannyan-raveendran/articleshow/108355512.cms'
+
+    genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
+
+    # Set up the model
+    generation_config = {
+    "temperature": 0.9,
+    "top_p": 1,
+    "top_k": 1,
+    "max_output_tokens": 2048,
+    }
+
+    safety_settings = [
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    ]
+
+    model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                generation_config=generation_config,
+                                safety_settings=safety_settings)
+
+    convo = model.start_chat(history=[
+    ])
+
+    convo.send_message(f"summarise this url news and give important links{url}")
+    result = convo.last.text
+    context = { 
+        'result' : result,
+    }
+    print(context)
+    return render(request, 'news/summary.html',context)
