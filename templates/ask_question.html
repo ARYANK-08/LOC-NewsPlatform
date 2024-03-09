@@ -1,0 +1,135 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #question-form {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: calc(100% - 30px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-group-text {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .input-group-text:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        #file-size-info {
+            display: block;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 30px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            #question-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ask a Question</h1>
+        <form id="question-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="id_title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_content" class="form-label">Content:</label>
+                <textarea class="form-control" id="id_content" name="content" rows="3" required></textarea>
+            </div>
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" id="inputGroupFile02" name="image">
+                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+            </div>
+            <span id="file-size-info"></span>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('inputGroupFile02').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const fileSizeKB = Math.round(file.size / 1024);
+                document.getElementById('file-size-info').textContent = `Selected file size: ${fileSizeKB} KB`;
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
