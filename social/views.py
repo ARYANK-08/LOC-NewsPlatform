@@ -4,7 +4,6 @@ from .models import Question, Answer, Comment
 from .forms import QuestionForm, AnswerForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
-@login_required
 def like_post(request):
     if request.method == 'POST' and request.is_ajax():
         question_id = request.POST.get('question_id')
@@ -15,7 +14,7 @@ def like_post(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
+
 def like_answer(request):
     if request.method == 'POST' and request.is_ajax():
         answer_id = request.POST.get('answer_id')
@@ -26,7 +25,6 @@ def like_answer(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
 def like_comment(request):
     if request.method == 'POST' and request.is_ajax():
         comment_id = request.POST.get('comment_id')
@@ -37,17 +35,14 @@ def like_comment(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
 def chat(request):
     return render(request, 'social.html')
 
-@login_required
 def community_chat(request):
     # Retrieve all questions along with their answers and comments
     questions = Question.objects.prefetch_related('answer_set__comment_set').all()
     return render(request, 'social.html', {'questions': questions})
 
-@login_required
 def ask_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, request.FILES)
@@ -60,7 +55,6 @@ def ask_question(request):
         form = QuestionForm()
     return render(request, 'ask_question.html', {'form': form})
 
-@login_required
 def answer_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
@@ -75,7 +69,6 @@ def answer_question(request, question_id):
         form = AnswerForm()
     return render(request, 'answer_question.html', {'form': form, 'question': question})
 
-@login_required
 def comment_answer(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.method == 'POST':
