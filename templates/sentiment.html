@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Results</title>
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Your existing CSS styles */
+    </style>
+</head>
+<body>
+    <h1>Sentiment Analysis Results</h1>
+    <div class="container">
+        <div class="headlines">
+            <h2>Positive Headlines:</h2>
+            <ul>
+                {% for headline in positive_headlines %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+            </ul>
+            <h2>Negative Headlines:</h2>
+            <ul>
+                {% for headline in negative_headlines %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="graph">
+            <!-- Display the chart -->
+            <canvas id="sentimentChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <script>
+        // Prepare data for Chart.js
+        var ctx = document.getElementById('sentimentChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'radar', // Change the type of chart to radar
+            data: {
+                labels: ['Negative', 'Neutral', 'Positive'],
+                datasets: [{
+                    label: 'Sentiment Analysis',
+                    data: [
+                        {{ negative_percentage }},
+                        {{ neutral_percentage }},
+                        {{ positive_percentage }}
+                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scale: {
+                    angleLines: {
+                        display: false
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

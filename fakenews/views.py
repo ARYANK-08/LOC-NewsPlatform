@@ -6,13 +6,12 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from serpapi import GoogleSearch
+import google.generativeai
+
 
 
 port_stem = PorterStemmer()
 vectorization = TfidfVectorizer()
-
-vector_form = pickle.load(open('fakenews/models/vector.pkl', 'rb'))
-load_model = pickle.load(open('fakenews/models/model.pkl', 'rb'))
 
 
 def get_data(query):

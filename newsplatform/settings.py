@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'fakenews',
     'events',
     'visualise',
+    'reddit'
 
 ]
 
