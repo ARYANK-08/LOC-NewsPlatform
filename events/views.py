@@ -8,7 +8,7 @@ def fetchevents(request):
     "q": "Events in Mumbai",
     "hl": "en",
     "gl": "us",
-    "api_key": "80f40b48b2e799f40e5bfe9ebbb9f2e0dc267db2da8abb7b2f564fa25148067c"
+    "api_key": "26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6"
     }
     search = GoogleSearch(params)
     results = search.get_dict()
@@ -23,7 +23,7 @@ def fetchevents(request):
         "q": "Events in " + location,
         "hl": "en",
         "gl": "us",
-        "api_key": "80f40b48b2e799f40e5bfe9ebbb9f2e0dc267db2da8abb7b2f564fa25148067c"
+        "api_key": "26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6"
         }
         search = GoogleSearch(params)
         results = search.get_dict()

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container container-fluid p-4">
+
+   
+        <div class="container container-fluid p-4">
+
+        <div class="card p-4">
+            <h5 class="card-header">News List for {{name}}</h5>
+            <div class="table-responsive text-nowrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Date</th>
+                    <th>Know more</th>
+                  </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for news_item in name_list %}
+
+                  <tr>
+                    <td>
+                      <i class="bx bxl-angular bx-sm text-danger me-3"></i>
+                      <span class="fw-medium">{{ news_item.title }}</span>
+                    </td>
+                    
+                    
+                    <td><span class="badge bg-label-primary me-1">{{ news_item.date }}</span></td>
+                    <td><a href="{{ news_item.link }}" class="card-link">Know More</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+       </div>
+
+{% endblock %}
