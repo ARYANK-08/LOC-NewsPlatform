@@ -33,10 +33,15 @@
 #     # print(f'hi{answer}')
 #     return convo.last.text # Assuming 'message' contains the response text
 
+
 # def visualise(link):
 #     inputLink = link
 #     response = get_ai_response(inputLink)
 #     return response
+
+# vector_form = pickle.load(open('fakenews/models/vector.pkl', 'rb'))
+# load_model = pickle.load(open('fakenews/models/model.pkl', 'rb'))
+
 
 
 

@@ -52,3 +52,5 @@ def process_location(request):
 
 def event_details(request):
     return render(request, 'event/event_details.html')
+
+
