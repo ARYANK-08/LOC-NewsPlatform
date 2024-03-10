@@ -87,8 +87,6 @@ def serp_api(request):
 
 import google.generativeai as genai
 
-import google.generativeai as genai
-
 
 
 def news(request):
