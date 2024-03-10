@@ -93,7 +93,7 @@ def news(request):
     # category = request.GET.get('category')
     params = {
     "engine": "google_news",
-    "q": "hindustan times economictimes NDTV ",
+    "q": "Stocks hindustan times economictimes NDTV ",
     "api_key": "26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6"
     }
 
@@ -129,7 +129,7 @@ def news_list(request, name):
 
     params = {
         "engine": "google_news",
-        "q": "Hindustan Times economictimes NDTV  ",
+        "q": "Stocks Hindustan Times economictimes NDTV  ",
         "api_key": "26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6"
     }
 
@@ -165,7 +165,7 @@ def summary_news(request):
         url = 'https://timesofindia.indiatimes.com/india/bjp-is-irrelevant-in-thiruvananthapuram-main-fight-is-between-left-and-congress-ldf-candidate-pannyan-raveendran/articleshow/108355512.cms'
 
     try:
-        genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
+        genai.configure(api_key=(os.getenv("K1GOOGLE_API_KEY")))  # Set up your API key
 
         # Set up the model
         generation_config = {
@@ -201,10 +201,10 @@ def summary_news(request):
         convo = model.start_chat(history=[
         ])
 
-        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also search for the same context on google and check whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
+        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also tell whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
         result = convo.last.text
     except:
-        genai.configure(api_key="AIzaSyCeIzo3yb2MYwp536XX_BODXUZBwjkP14Y")
+        genai.configure(api_key=(os.getenv("A2GOOGLE_API_KEY")))  # Set up your API key
 
         # Set up the model
         generation_config = {
@@ -240,7 +240,7 @@ def summary_news(request):
         convo = model.start_chat(history=[
         ])
 
-        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also search for the same context on google and check whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
+        convo.send_message(f"summarise this url news in 100 words and give 2-3 important links{url}. Also tell whether the news in the content of url link is reliable or not. Answer in one word 'Reliable' or 'Unreliable' and suport your answer in 15 -20 words")
         result = convo.last.text
     context = { 
         'result' : result,
@@ -257,45 +257,79 @@ def ai_news(request):
     if request.method == 'POST':
         user_input = request.POST.get('user_input', '')
         try:
-            genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
-        except:
-            genai.configure(api_key="AIzaSyA4uR6gq5njTMtQXJwSpIdq_zC1LA1ugS0")
+            genai.configure(api_key=(os.getenv("A3GOOGLE_API_KEY")))  # Set up your API key
 
         # Set up the model
-        generation_config = {
-            "temperature": 0.9,
-            "top_p": 1,
-            "top_k": 1,
-            "max_output_tokens": 2048,
-        }
+            generation_config = {
+                "temperature": 0.9,
+                "top_p": 1,
+                "top_k": 1,
+                "max_output_tokens": 2048,
+            }
 
-        safety_settings = [
-            {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-        ]
+            safety_settings = [
+                {
+                    "category": "HARM_CATEGORY_HARASSMENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_HATE_SPEECH",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+            ]
 
-        model = genai.GenerativeModel(model_name="gemini-1.0-pro",
-                                    generation_config=generation_config,
-                                    safety_settings=safety_settings)
+            model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                        generation_config=generation_config,
+                                        safety_settings=safety_settings)
 
-        convo = model.start_chat(history=[])
-        context = 'You are an AI news assistant who will give URL links and headlines based on the interests and inputs I receive.'
-        convo.send_message(f"{context} {user_input}")
-        result = convo.last.text
+            convo = model.start_chat(history=[])
+            context = 'You are an AI news assistant who will give URL links and headlines based on the interests and inputs I receive.'
+            convo.send_message(f"{context} {user_input}")
+            result = convo.last.text
+        except:
+            genai.configure(api_key=(os.getenv("E2GOOGLE_API_KEY")))  # Set up your API key
+            generation_config = {
+                "temperature": 0.9,
+                "top_p": 1,
+                "top_k": 1,
+                "max_output_tokens": 2048,
+            }
+
+            safety_settings = [
+                {
+                    "category": "HARM_CATEGORY_HARASSMENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_HATE_SPEECH",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+            ]
+
+            model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                                        generation_config=generation_config,
+                                        safety_settings=safety_settings)
+
+            convo = model.start_chat(history=[])
+            context = 'You are an AI news assistant who will give URL links and headlines based on the interests and inputs I receive. Form should be Headline: , URL:'
+            convo.send_message(f"{context} {user_input}")
+            result = convo.last.text
 
         return render(request, 'news/ai_news.html', {'result': result})
 

@@ -1,43 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        label, input[type="submit"] {
-            display: block;
-            margin: 10px 0;
-        }
-        textarea {
-            width: calc(100% - 22px);
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    label,
+    input[type="submit"] {
+        display: block;
+        margin: 10px 0;
+    }
+
+    textarea {
+        width: calc(100% - 22px);
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        color: #000;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    p {
+        color: #000;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .url {
+        color: #007bff;
+        text-decoration: none;
+    }
+</style>
 </head>
+
 <body>
     <h1>AI News Assistant</h1>
     <form action="{% url 'ai_news' %}" method="post">
@@ -48,22 +73,29 @@
     </form>
 
     {% if result %}
+    <div id="resultBlock">
         <h2>AI News Assistant Response:</h2>
-        <p>{{ result }}</p>
+        <p id="resultParagraph">{{ result }}</p>
+    </div>
     {% endif %}
-
     <script>
-        document.querySelector('form').onsubmit = function() {
-            // Example: Validate input or give an interactive response before submitting
-            var userInput = document.getElementById('user_input').value.trim();
-            if(userInput === '') {
-                alert('Please enter some input before submitting.');
-                return false; // Prevent form from submitting
-            }
-            // Add more interactive checks or functionality here
-            return true; // Proceed with form submission
-        };
+        document.addEventListener("DOMContentLoaded", function() {
+            var resultParagraph = document.getElementById('resultParagraph');
+            var resultText = resultParagraph.innerHTML;
+    
+            // Format headings and URLs
+            var formattedText = resultText.replace(/\*\*\sHeadline:\s*\*\*(.*?)\s*\*\*\s*URL:\s*\*\*\s*(https:\/\/[^\s]+)\s*\*\*/g, function(match, headline, url) {
+                return '<p><strong>Headline:</strong><br><br>' + headline + '</p><p><a class="url" href="' + url + '" target="_blank">' + url + '</a></p><br>';
+            });
+    
+            resultParagraph.innerHTML = formattedText;
+    
+            // Make the result text bold and dark
+            resultParagraph.style.fontWeight = 'bold';
+            resultParagraph.style.color = '#000';
+        });
     </script>
+    
 </body>
 </html>
 {% endblock %}
