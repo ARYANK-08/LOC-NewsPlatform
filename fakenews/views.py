@@ -1,64 +1,74 @@
-from django.shortcuts import render
-# from .models import News  # if you have a News model
-import pickle
-import re
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from serpapi import GoogleSearch
+# import google.generativeai as genai
+# from serpapi import GoogleSearch
+# from django.shortcuts import render
+
+# # def visualise(request):
+# #     inputLink = 'https://www.businesstoday.in/magazine/the-buzz/story/crisis-at-byjus-the-recent-battle-between-investors-and-byju-raveendran-can-have-profound-implications-for-the-troubled-company-420681-2024-03-08'
+# #     response = get_ai_response(inputLink)
+# #     print(response)
+
+# def get_ai_response(inputLink):
+#     genai.configure(api_key="AIzaSyD-8JHmHGyRM-u3tWwQaNUakmzlq5kF5nU")  # Set up your API key
+#     generation_config = {  # Your generation config
+#         "temperature": 0.1,
+#         "top_p": 1,
+#         "top_k": 1,
+#         "max_output_tokens": 2048,
+#     }
+#     safety_settings = [  # Your safety settings
+#         {
+#             "category": "HARM_CATEGORY_HARASSMENT",
+#             "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+#         },
+#         # Add other settings as needed
+#     ]
+#     model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+#                                   generation_config=generation_config,
+#                                   safety_settings=safety_settings)
+#     convo = model.start_chat(history=[])
+#     context = "Act as a news fact checker which takes a source as input, and check weather the news is reliable or not reliable . Answer only in one word 'Reliable' or 'Unreliable' "
+#     message = f"{context} Link to Scrape : {inputLink} "
+#     response = convo.send_message(message)
+#     answer = convo.last.text
+#     # print(f'hi{answer}')
+#     return convo.last.text # Assuming 'message' contains the response text
 
 
-port_stem = PorterStemmer()
-vectorization = TfidfVectorizer()
+# def visualise(link):
+#     inputLink = link
+#     response = get_ai_response(inputLink)
+#     return response
 
 # vector_form = pickle.load(open('fakenews/models/vector.pkl', 'rb'))
 # load_model = pickle.load(open('fakenews/models/model.pkl', 'rb'))
 
 
-def get_data(query):
 
-    params = {
-    "engine": "google_news",
-    "q": query,
-    "api_key": "2145d6d7b13649473c8fc27db3144a1fcd104d599cb85342faefc7e612e243ca"
-    }
 
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    news_results = results["news_results"]
+# def index(request):
 
-def stemming(content):
-    con = re.sub('[^a-zA-Z]', ' ', content)
-    con = con.lower()
-    con = con.split()
-    con = [port_stem.stem(word) for word in con if not word in stopwords.words('english')]
-    con = ' '.join(con)
-    return con
+#     response_objects = []
+#     params = {
+#         'api_key': '26e70021815702b5f137092dd576848621e3f9d5f6ec76fae0ac49148a0fa8f6',
+#         'engine': 'google',
+#         'tbm': 'nws',
+#         'q': 'Technology',
+        
+#     }
+#     search = GoogleSearch(params)
+#     results = search.get_dict().get('news_results', [])
+    
+#     if results:
+#         first_result_source = results[8]['link']
+#         print(first_result_source)
+#         response = visualise(first_result_source)
+#     else:
+#         # Handle the case where there are no results
+#         print("No results found.")
 
-def fake_news(news):
-    news = stemming(news)
-    input_data = [news]
-    vector_form1 = vector_form.transform(input_data)
-    prediction = load_model.predict(vector_form1)
-    return prediction
+#     # print(results)
+#     print("/////////////////////////////")
+#     print(response)
 
-def index(request):
-
-    params = {
-    "engine": "google_news",
-    "q": "Bomb blast in 1998",
-    "api_key": "2145d6d7b13649473c8fc27db3144a1fcd104d599cb85342faefc7e612e243ca"
-    }
-
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    news_results = results["news_results"]
-    print(news_results)
-
-    if request.method == 'POST':
-        sentence = request.POST.get('news_content', '')
-        prediction_class = fake_news(sentence)
-        print(prediction_class)
-        result = 'Reliable' if prediction_class == [0] else 'Unreliable'
-        return render(request, 'fakenews/check.html', {'result': result})
-    return render(request, 'fakenews/check.html')
+#     context = {'news_data': results}
+#     return render(request, 'fakenews/check.html', context)
